@@ -258,6 +258,14 @@ def build():
     win_colorprint("build + import successful", GREEN)
 
 
+def test_docker():
+    build = subprocess.run("docker build --no-cache -t psutil/3.8.3-nanoserver-1809 -f Dockerfile .")
+    if build.returncode is not 0:
+        win_colorprint("Failed to build psutil docker image", RED)
+        return
+    sh("docker run --rm  psutil/3.8.3-nanoserver-1809 -c \"import psutil\"")
+
+
 def wheel():
     """Create wheel file."""
     build()
@@ -566,6 +574,7 @@ def main():
     test_by_name = sp.add_parser('test-by-name', help="<ARG> run test by name")
     sp.add_parser('test-connections', help="run connections tests")
     sp.add_parser('test-contracts', help="run contracts tests")
+    sp.add_parser('test-docker', help="run docker tests")
     sp.add_parser('test-failed', help="re-run tests which failed on last run")
     sp.add_parser('test-memleaks', help="run memory leaks tests")
     sp.add_parser('test-misc', help="run misc tests")

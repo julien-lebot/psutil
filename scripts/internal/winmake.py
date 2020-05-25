@@ -259,11 +259,11 @@ def build():
 
 
 def test_docker():
-    build = subprocess.run("docker build --no-cache -t psutil/3.8.3-nanoserver-1809 -f Dockerfile .")
-    if build.returncode is not 0:
+    build = subprocess.run("docker build --no-cache -t psutil:3.8.3-nanoserver-1809 -f Dockerfile .")
+    if build.returncode != 0:
         win_colorprint("Failed to build psutil docker image", RED)
         return
-    sh("docker run --rm  psutil/3.8.3-nanoserver-1809 -c \"import psutil\"")
+    sh("docker run --rm psutil:3.8.3-nanoserver-1809 -c \"import psutil\"")
 
 
 def wheel():
